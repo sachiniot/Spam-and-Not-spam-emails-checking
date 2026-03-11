@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Email Spam Detector</title>
+
+<style>
+
+body{
+margin:0;
+padding:0;
+font-family:Arial;
+background:linear-gradient(135deg,#5774f5,#d63c8b);
+height:100vh;
+display:flex;
+justify-content:center;
+align-items:center;
+}
+
+.container{
+background:white;
+padding:40px;
+width:420px;
+border-radius:15px;
+box-shadow:0 10px 25px rgba(0,0,0,0.2);
+text-align:center;
+}
+
+textarea{
+width:100%;
+height:150px;
+padding:10px;
+border-radius:8px;
+border:1px solid gray;
+}
+
+button{
+margin-top:15px;
+width:100%;
+padding:12px;
+border:none;
+border-radius:8px;
+background:#007BFF;
+color:white;
+font-size:16px;
+cursor:pointer;
+}
+
+.result{
+margin-top:20px;
+font-size:18px;
+font-weight:bold;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="container">
+
+<h2>Email Spam Checker</h2>
+
+<textarea id="message" placeholder="Enter email message"></textarea>
+
+<button onclick="checkSpam()">Check Message</button>
+
+<div class="result" id="result"></div>
+
+</div>
+
+<script>
+
+function checkSpam(){
+
+let message=document.getElementById("message").value
+
+fetch("/predict",{
+method:"POST",
+headers:{
+"Content-Type":"application/json"
+},
+body:JSON.stringify({message:message})
+})
+
+.then(res=>res.json())
+.then(data=>{
+document.getElementById("result").innerHTML=
+"Prediction : "+data.result
+})
+
+}
+
+</script>
+
+</body>
+</html>
